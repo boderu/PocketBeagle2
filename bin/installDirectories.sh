@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+echo "Create some directories"
+
+pushd $HOME
+
+mkdir -pv "$HOME/.config"
+mkdir -pv "$HOME/.local/share/fonts"
+mkdir -pv "$HOME/.local/bin"
+
+touch "$HOME/.sudo_as_admin_successful"
+
+popd
+
+# EOF
