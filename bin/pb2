@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 PARAM_STEP=''
-PARAM_NOGAMES=''
 
 fncHelp()
 {
@@ -9,7 +8,6 @@ fncHelp()
 	echo "Usage: $0 [-?sg]"
 	echo -e "\t-? Show this help"
 	echo -e "\t-s Run this script step by step"
-	echo -e "\t-g Uninstall the games"
 	echo
 	exit 0 # Exit script after printing help
 }
@@ -26,7 +24,6 @@ while getopts "sg" OPT 2>/dev/null
 do
 	case "$OPT" in
 		s ) PARAM_STEP="set" ;;
-		g ) PARAM_NOGAMES="set" ;;
 		? ) fncHelp ;; # Print helpFunction in case parameter is non-existent
 	esac
 done
@@ -34,64 +31,18 @@ done
 cd $HOME
 
 $HOME/.pb2/bin/installDirectories.sh	; fncStep
-
-#if [ "$PARAM_NOGAMES" == "set" ]
-#then
-#	cat "$HOME/.mint/deb-install.conf" > "$HOME/.deb-install.conf"
-#	cat "$HOME/.mint/deb-remove.conf" > "$HOME/.deb-remove.conf"
-#	cat "$HOME/.mint/deb-games.conf" >> "$HOME/.deb-remove.conf"
-#
-#	cat "$HOME/.mint/flatpak-install.conf" > "$HOME/.flatpak-install.conf"
-#	cat "$HOME/.mint/flatpak-remove.conf" > "$HOME/.flatpak-remove.conf"
-#	cat "$HOME/.mint/flatpak-games.conf" >> "$HOME/.flatpak-remove.conf"
-#else
-#	cat "$HOME/.mint/deb-install.conf" > "$HOME/.deb-install.conf"
-#	cat "$HOME/.mint/deb-remove.conf" > "$HOME/.deb-remove.conf"
-#	cat "$HOME/.mint/deb-games.conf" >> "$HOME/.deb-install.conf"
-#
-#	cat "$HOME/.mint/flatpak-install.conf" > "$HOME/.flatpak-install.conf"
-#	cat "$HOME/.mint/flatpak-remove.conf" > "$HOME/.flatpak-remove.conf"
-#	cat "$HOME/.mint/flatpak-games.conf" >> "$HOME/.flatpak-install.conf"
-#fi
-#echo "Installation lists created"		; fncStep
 $HOME/.pb2/bin/installDeb.sh			; fncStep
-#$HOME/.mint/bin/installFlatpak.sh		; fncStep
-#rm --force "$HOME/.deb-install.conf"
-#rm --force "$HOME/.deb-remove.conf"
-#rm --force "$HOME/.flatpak-install.conf"
-#rm --force "$HOME/.flatpak-remove.conf"
-
-$HOME/.mint/bin/installNerd.sh			; fncStep
-#$HOME/.mint/bin/installFuzzyFinder.sh	; fncStep
-#$HOME/.mint/bin/installMicro.sh			; fncStep
-#$HOME/.mint/bin/installLazygit.sh		; fncStep
-#$HOME/.mint/bin/installBroot.sh			; fncStep
-#$HOME/.mint/bin/installXplr.sh			; fncStep
-#$HOME/.mint/bin/installCppCheck.sh		; fncStep
-#$HOME/.mint/bin/installDrawIO.sh		; fncStep
-#$HOME/.mint/bin/installFrontDesign.sh	; fncStep
-#$HOME/.mint/bin/installVueScan.sh		; fncStep
-#$HOME/.mint/bin/installSegger.sh		; fncStep
-#$HOME/.mint/bin/installVSCode.sh		; fncStep
-#$HOME/.mint/bin/installSysWorxx.sh		; fncStep
-#$HOME/.mint/bin/installDiffusion.sh		; fncStep
-#$HOME/.mint/bin/installCCS.sh			; fncStep
-#$HOME/.mint/bin/installOllama.sh		; fncStep
-$HOME/.mint/bin/installRuby.sh			; fncStep
-$HOME/.mint/bin/installPython.sh		; fncStep
-#$HOME/.mint/bin/installRust.sh			; fncStep
-#$HOME/.mint/bin/installZellij.sh		; fncStep
-
-#=======================================================================================================================
-#echo ; echo "arm-none-eabi-gdb"
-#if [ ! -e "/usr/bin/arm-none-eabi-gdb" ]
-#then
-#	if [ -e "/usr/bin/gdb-multiarch" ]
-#	then
-#		sudo ln --verbose -s /usr/bin/gdb-multiarch /usr/bin/arm-none-eabi-gdb
-#	fi
-#fi
-#fncStep
+$HOME/.pb2/bin/installNerd.sh			; fncStep
+#$HOME/.pb2/bin/installFuzzyFinder.sh	; fncStep
+#$HOME/.pb2/bin/installMicro.sh			; fncStep
+#$HOME/.pb2/bin/installLazygit.sh		; fncStep
+#$HOME/.pb2/bin/installBroot.sh			; fncStep
+#$HOME/.pb2/bin/installXplr.sh			; fncStep
+#$HOME/.pb2/bin/installCppCheck.sh		; fncStep
+$HOME/.pb2/bin/installRuby.sh			; fncStep
+$HOME/.pb2/bin/installPython.sh			; fncStep
+#$HOME/.pb2/bin/installRust.sh			; fncStep
+$HOME/.pb2/bin/installZellij.sh			; fncStep
 
 #=======================================================================================================================
 echo ; echo "Remove packages that are no longer required"
@@ -99,102 +50,64 @@ sudo apt autoremove -y
 fncStep
 
 #=======================================================================================================================
-#echo ; echo "Set up User Guest"
-#egrep -i guest /etc/passwd >/dev/null
-#if [ $? -ne 0 ]
-#then
-#	sudo adduser --disabled-password --gecos "Guest" guest
-#	sudo adduser guest users
-#	sudo passwd -d guest
-#fi
-#
-#echo ; echo "Add users to the users and dialout groups"
-#sudo adduser $USER users
-#sudo adduser $USER dialout
-#fncStep
-
-#=======================================================================================================================
-#echo ; echo "Configure shared folder for all users to share files"
-#if [ -d /home/Share ]
-#then
-#	echo "Share folder already exists"
-#else
-#	sudo mkdir /home/Share
-#	sudo chown root:users /home/Share
-#	sudo chmod ugo+rwX /home/Share
-#	sudo chmod g+s /home/Share
-#fi
-
-#if [ ! -d "/home/Share/.mint" ]
-#then
-#	pushd "/home/Share"
-#	git clone https://github.com/boderu/Mint.git .mint
-#	popd
-#fi
-#pushd "/home/Share/.mint"
-#git pull
-#popd
-#fncStep
-
-#echo
-#echo "Configure public (RO) folder for all users"
-#if [ -d /home/Public ]
-#then
-#	echo "Public folder already exists"
-#else
-#	sudo mkdir /home/Public
-#	sudo chown $USER:users /home/Public
-#	sudo chmod ugo+rX /home/Public
-#	sudo chmod u+w /home/Public
-#	sudo chmod ug+s /home/Public
-#fi
-#fncStep
-
-#=======================================================================================================================
-echo
-echo "Increase limit for file system watches (inotify)"
-if [ ! -e /etc/sysctl.d/90-inotify.conf ]
+echo ; echo "Set up User Guest"
+egrep -i guest /etc/passwd >/dev/null
+if [ $? -ne 0 ]
 then
-	sudo cp $HOME/Mint/Sytem/etc/sysctl.d/90-inotify.conf /etc/sysctl.d/
-	sudo chown root:root /etc/sysctl.d/90-inotify.conf
-	sudo sysctl -p --system
+	sudo adduser --disabled-password --gecos "Guest" guest
+	sudo adduser guest users
+	sudo passwd -d guest
+fi
+
+echo ; echo "Add users to the users and dialout groups"
+sudo adduser $USER users
+sudo adduser $USER dialout
+fncStep
+
+#=======================================================================================================================
+echo ; echo "Configure shared folder for all users to share files"
+if [ -d /home/Share ]
+then
+	echo "Share folder already exists"
+else
+	sudo mkdir /home/Share
+	sudo chown root:users /home/Share
+	sudo chmod ugo+rwX /home/Share
+	sudo chmod g+s /home/Share
+fi
+
+echo
+echo "Configure public (RO) folder for all users"
+if [ -d /home/Public ]
+then
+	echo "Public folder already exists"
+else
+	sudo mkdir /home/Public
+	sudo chown $USER:users /home/Public
+	sudo chmod ugo+rX /home/Public
+	sudo chmod u+w /home/Public
+	sudo chmod ug+s /home/Public
 fi
 fncStep
 
 #=======================================================================================================================
-#echo ; echo "Set up local configurations"
-#if [ -d ".oh-my-zsh" ]
-#then
-#	cd .oh-my-zsh
-#	git fetch --all
-#	git pull
-#	cd ..
-#else
-#	git clone https://github.com/ohmyzsh/ohmyzsh.git .oh-my-zsh
-#fi
-#fncStep
+# echo
+# echo "Increase limit for file system watches (inotify)"
+# if [ ! -e /etc/sysctl.d/90-inotify.conf ]
+# then
+# 	sudo cp $HOME/Mint/Sytem/etc/sysctl.d/90-inotify.conf /etc/sysctl.d/
+# 	sudo chown root:root /etc/sysctl.d/90-inotify.conf
+# 	sudo sysctl -p --system
+# fi
+# fncStep
 
-#=======================================================================================================================
 #$HOME/.mint/bin/installFrameworks.sh			; fncStep
 $HOME/.mint/bin/installLinks.sh					; fncStep
-#$HOME/.mint/bin/installMintApplets.sh			; fncStep
-#$HOME/.mint/bin/installNemoActions.sh			; fncStep
 #$HOME/.mint/bin/installDesktop.sh				; fncStep
-#$HOME/.mint/bin/installMozillaThunderbird.sh	; fncStep
 
 #=======================================================================================================================
-#echo
-#echo "zusätzliche Firefox Einstellungen:"
-#echo "1) Erzeuge alle Firefox-Profile (about:profiles)"
-#echo "2) Synchronisiere alle Profile (verschiedene Logins notwendig)"
-#echo "3) Nach der Synchronisierung: don't allow Firefox to send data"
-#echo "4) Ändere die Toolbar, ..."
-#echo "5) Ändere die internen Firefox-Einstellungen (about:config)"
-#echo "   browser.uidensity --> 1"
-#echo "   signon.includeOtherSubdomainsInLookup --> false"
-
 echo
-echo "Einrichtung beendet."
+echo "Setup finished."
 echo
 
 # EOF
